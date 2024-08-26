@@ -1,40 +1,43 @@
 import { useState } from "react"
 import { Button } from "../components/ui/button"
 import api from "@/api"
-import { ProductCreate } from "@/types"
+import { Product} from "@/types"
+import { useCreateProduct, useGetProducts } from "@/features/use-products"
 
 
 
 export function Home() {
   const [message, setMessage] = useState("")
-  const [products, setProducts] = useState<ProductCreate[]>([])
+  // const [products, setProducts] = useState<Product[]>([])
   const [newProductName, setNewProductName] = useState("")
   
-  const fetchProducts = async () => {
-    try {
-      const response = await api.get('/products');
-      const productData = response.data.data;
+  const {products , isError: fetchError, isLoading: fetchLoading } = useGetProducts();
+  const createProduct = useCreateProduct();
 
-      if (Array.isArray(productData)) {
-        setProducts(productData);
+  // const fetchProducts = async () => {
+  //   try {
+  //     const response = await api.get('/products');
+  //     const productData = response.data.data;
 
-        const productNames = productData.map((product: { name: string }) => product.name);
-        setMessage(productNames.join(", "));
-      } else {
-        console.error("Expected an array but got:", productData);
-        setMessage("Unexpected data format received.");
-      }
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      setMessage("Failed to fetch products.");
-    }
-  }
+  //     if (Array.isArray(productData)) {
+  //       setProducts(productData);
+
+  //       const productNames = productData.map((product: { name: string }) => product.name);
+  //       setMessage(productNames.join(", "));
+  //     } else {
+  //       console.error("Expected an array but got:", productData);
+  //       setMessage("Unexpected data format received.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching products:", error);
+  //     setMessage("Failed to fetch products.");
+  //   }
+  // }
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewProductName(e.target.value);
   };
   const addProduct = async () => {
-    try {
-      const response = await api.post('/products', {
+      const newProduct = {
         name: newProductName,
         price: 100,
         description: "New Product Description",
@@ -42,16 +45,22 @@ export function Home() {
         color: "blue",
         rating: 5,
         stock: 10
+      };
+      
+      createProduct.mutate(newProduct, {
+        onSuccess: (data) => {
+          setNewProductName("");
+          console.log("Product created successfully:", data);
+          setMessage("Product created successfully.");
+        },
+        onError: (error) => {
+          console.error("Error creating product:", error);
+          setMessage("Failed to create product.");
+        }
       });
-      const newProduct = response.data.data;
-      setNewProductName("");
-
-      setProducts([...products, newProduct]);
-    } catch (error) {
-      console.error("Error adding product:", error);
-      setMessage("Failed to add product.");
+      
     }
-  }
+  
 
   const deleteProduct = async (id: number) => {
     try {
@@ -65,11 +74,13 @@ export function Home() {
   }
 
   const handleWelcome = () => {
-    fetchProducts()
+    // fetchProducts()
   }
   const handleCleanState = () => {
     setMessage("")
   }
+  if (fetchLoading) return <p>Loading products...</p>;
+  if (fetchError) return <p>Error fetching products: {fetchError}</p>;
 
   return (
     <div className="flex flex-col justify-center items-center gap-10 h-screen">
