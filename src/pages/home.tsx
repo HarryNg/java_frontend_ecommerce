@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useCreateProduct, useDeleteProduct, useGetProducts } from "@/features/use-products"
 import { ProductList } from "@/components/product-list"
-import { ProductForm } from "@/components/ProductForm"
+import { ProductForm } from "@/components/product-form"
 
 export function Home() {
   // const [products, setProducts] = useState<Product[]>([])
@@ -30,17 +30,17 @@ export function Home() {
       />
       
       <ProductList 
-      products={products} 
-      deleteProduct={(id) => {
-        deleteProductMutation.mutate(id, {
-          onSuccess: (data) => {
-            console.log("Product deleted successfully:", data);
-          },
-          onError: (error) => {
-            console.error("Error deleting product:", error);
-          }
-        });
-      }}
+        products={products} 
+        deleteProduct={(id) => {
+          deleteProductMutation.mutate(id, {
+            onSuccess: (data) => {
+              console.log("Product deleted successfully:", data);
+            },
+            onError: (error) => {
+              console.error("Error deleting product:", error);
+            }
+          });
+        }}
       />
     </div>
   )

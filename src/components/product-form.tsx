@@ -1,6 +1,8 @@
 import { ProductCreate } from "@/types";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { Card } from "./ui/card";
+import { Input } from "./ui/input";
 
 interface ProductFormProps {
     onAddProduct: (product: ProductCreate) => void;
@@ -29,14 +31,15 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
     };
 
     return (
-        <div className="flex flex-col gap-5">
-            <input
+        <Card className="p-6">
+            <Input
                 type="text"
                 value={newProductName}
                 onChange={handleInputChange}
-                placeholder="Product Name"
+                placeholder="Enter product name"
+                className="mb-4"
             />
             <Button onClick={addProduct}>Add Product</Button>
-        </div>
+        </Card>
     );
 }
