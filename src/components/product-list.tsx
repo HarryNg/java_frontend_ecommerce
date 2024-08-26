@@ -1,10 +1,14 @@
 import { Product } from "@/types";
 import { Button } from "./ui/button";
 
-export function ProductList({ products, deleteProduct }: { products: Product[], deleteProduct: (id: string) => void }) {
+interface ProductListProps {
+    products: Product[];
+    deleteProduct: (id: string) => void;
+}
+
+export function ProductList({ products, deleteProduct }: ProductListProps) {
     return (
         <div className="flex flex-col gap-5">
-            <h2>Product List</h2>
             <ul className="flex gap-5">
                 {products.map(product => (
                     <li key={product.id}>
