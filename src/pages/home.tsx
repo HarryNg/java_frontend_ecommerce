@@ -43,7 +43,7 @@ export function Home() {
     }
   
 
-  const deleteProduct = async (id: number) => {
+  const deleteProduct = async (id: string) => {
     try {
       const response = await api.delete('/products/' + id);
       const deletedProducts = response.data.data;
@@ -82,6 +82,7 @@ export function Home() {
       <div className="flex flex-col gap-5">
         {products.map((product) => (
           <div key={product.id} className="flex gap-5">
+            <p>{product.id}</p>
             <p>{product.name}</p>
             <p>{product.description}</p>
             <p>{product.price}</p>
