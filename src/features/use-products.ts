@@ -39,3 +39,14 @@ export function useCreateProduct() {
     });
     return mutation;
 }
+
+export function useDeleteProduct() {
+    const queryClient = useQueryClient();
+    const mutation = useMutation({
+        mutationFn: ProductService.deleteOne,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: getQueryKey() });
+        }
+    });
+    return mutation;
+}

@@ -1,14 +1,18 @@
 import { Product } from "@/types";
+import { Button } from "./ui/button";
 
 export function ProductList({ products, deleteProduct }: { products: Product[], deleteProduct: (id: string) => void }) {
     return (
-        <div>
+        <div className="flex flex-col gap-5">
             <h2>Product List</h2>
-            <ul>
+            <ul className="flex gap-5">
                 {products.map(product => (
                     <li key={product.id}>
-                        <span>{product.name}</span>
-                        <button onClick={() => deleteProduct(product.id)}>Delete</button>
+                        <p>{product.name}</p>
+                        <p>{product.description}</p>
+                        <p>{product.price}</p>
+                        <p>{product.id}</p>
+                        <Button onClick={() => deleteProduct(product.id)}>Delete</Button>
                     </li>
                 ))}
             </ul>

@@ -1,3 +1,4 @@
+import { ProductList } from "./components/product-list"
 import { Home } from "./pages/home"
 
 function App() {
