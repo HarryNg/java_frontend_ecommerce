@@ -11,13 +11,13 @@ export function getQueryKey(id?: string) {
 }
 
 export function useGetProducts() {
-    const { data: products, isError, isLoading} = useQuery<Product[]>({
+    const { data: products, error, isLoading} = useQuery<Product[]>({
         queryKey: getQueryKey(),
         queryFn: ProductService.getAll,
         initialData: []
     });
     
-    return {products, isError, isLoading};
+    return {products, error, isLoading};
 }
 
 export function useGetOneProduct(id: string) {

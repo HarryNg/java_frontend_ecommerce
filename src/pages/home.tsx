@@ -11,28 +11,9 @@ export function Home() {
   // const [products, setProducts] = useState<Product[]>([])
   const [newProductName, setNewProductName] = useState("")
   
-  const {products , isError: fetchError, isLoading: fetchLoading } = useGetProducts();
+  const {products , error: fetchError, isLoading: fetchLoading } = useGetProducts();
   const createProduct = useCreateProduct();
 
-  // const fetchProducts = async () => {
-  //   try {
-  //     const response = await api.get('/products');
-  //     const productData = response.data.data;
-
-  //     if (Array.isArray(productData)) {
-  //       setProducts(productData);
-
-  //       const productNames = productData.map((product: { name: string }) => product.name);
-  //       setMessage(productNames.join(", "));
-  //     } else {
-  //       console.error("Expected an array but got:", productData);
-  //       setMessage("Unexpected data format received.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //     setMessage("Failed to fetch products.");
-  //   }
-  // }
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewProductName(e.target.value);
   };
@@ -80,7 +61,7 @@ export function Home() {
     setMessage("")
   }
   if (fetchLoading) return <p>Loading products...</p>;
-  if (fetchError) return <p>Error fetching products: {fetchError}</p>;
+  if (fetchError) return <p>Error fetching products: {fetchError.message}</p>;
 
   return (
     <div className="flex flex-col justify-center items-center gap-10 h-screen">
