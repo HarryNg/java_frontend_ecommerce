@@ -1,20 +1,20 @@
-import { useState } from "react"
 import { useCreateProduct, useDeleteProduct, useGetProducts } from "@/features/use-products"
 import { ProductList } from "@/components/product-list"
 import { ProductForm } from "@/components/product-form"
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
 
 export function Home() {
-  // const [products, setProducts] = useState<Product[]>([])
-  
   const {products , error: fetchError, isLoading: fetchLoading } = useGetProducts();
   const createProductMutation = useCreateProduct();
   const deleteProductMutation = useDeleteProduct();
 
   if (fetchLoading) return <p>Loading products...</p>;
   if (fetchError) return <p>Error fetching products: {fetchError.message}</p>;
+  const formMethods = useForm();
 
   return (
-    <div className="flex flex-col justify-center items-center gap-10 h-screen">
+    <div className="flex flex-col justify-center items-center gap-10">
       <h1 className="text-2xl">Welcome!</h1>
       <ProductForm 
         onAddProduct = {(product) => {
@@ -42,6 +42,10 @@ export function Home() {
           });
         }}
       />
+
+
+    
+
     </div>
   )
 }
