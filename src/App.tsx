@@ -17,12 +17,24 @@ const router = createBrowserRouter([
         element: <div>Login</div>,
       },
       {
+        path: '/profile',
+        element: <div>Your Profile</div>,
+      },,
+      {
         path: '/dashboard',
         element: <div>Dashboard</div>,
       },
       {
         path: '/product/:id',
         element: <ProductPage />,
+      },
+      {
+        path: '/cart',
+        element: <div>Cart is under development</div>,
+      },
+      {
+        path: '/orders',
+        element: <div>Your order's details</div>,
       }
     ]
   }
