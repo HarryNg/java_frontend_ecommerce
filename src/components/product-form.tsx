@@ -12,7 +12,7 @@ interface ProductFormProps {
 
 const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  price: z.number().positive("Price must be positive").or(z.literal(0)),
+  price: z.number().positive("Price must be positive"),
   description: z.string().optional(),
   images: z.array(z.string()).optional(),
   color: z.string().optional(),
@@ -51,122 +51,121 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
     <FormProvider {...formMethods}>
       <form onSubmit={formMethods.handleSubmit(onSubmit)} className="flex flex-col">
         <div className="flex gap-4 p-1">
+            <FormField
+                control={formMethods.control}
+                name="name"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                        <Input placeholder="Product name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+            />
 
-        <FormField
-          control={formMethods.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Product name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+                control={formMethods.control}
+                name="price"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                            <Input
+                            type="number"
+                            placeholder="Product price"
+                            {...field}
+                            value={field.value}
+                            onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
 
-        <FormField
-          control={formMethods.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="Product price"
-                  {...field}
-                  value={field.value}
-                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+                control={formMethods.control}
+                name="description"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Product description" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
 
-        <FormField
-          control={formMethods.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input placeholder="Product description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+                control={formMethods.control}
+                name="images"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Images</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Product images" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
 
-        <FormField
-          control={formMethods.control}
-          name="images"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Images</FormLabel>
-              <FormControl>
-                <Input placeholder="Product images" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+                control={formMethods.control}
+                name="color"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Color</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Product color" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
 
-        <FormField
-          control={formMethods.control}
-          name="color"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Color</FormLabel>
-              <FormControl>
-                <Input placeholder="Product color" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+                control={formMethods.control}
+                name="rating"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Rating</FormLabel>
+                        <FormControl>
+                            <Input
+                            type="number"
+                            placeholder="Product rating"
+                            {...field}
+                            value={field.value}
+                            onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
 
-        <FormField
-          control={formMethods.control}
-          name="rating"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Rating</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="Product rating"
-                  {...field}
-                  value={field.value}
-                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={formMethods.control}
-          name="stock"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Stock</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="Product stock"
-                  {...field}
-                  value={field.value}
-                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+                control={formMethods.control}
+                name="stock"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Stock</FormLabel>
+                        <FormControl>
+                            <Input
+                            type="number"
+                            placeholder="Product stock"
+                            {...field}
+                            value={field.value}
+                            onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
         </div>
         <Button type="submit" className="w-1/4 self-center m-2">Add Product</Button>
       </form>

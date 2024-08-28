@@ -19,8 +19,8 @@ export function ProductList({ products, deleteProduct }: ProductListProps) {
                     <CardContent>
                      <p className="mb-2">
                         {product.description}</p>
-                     <h6 className="mb-2">
-                        {product.price}</h6>
+                     <p className="mb-2">
+                        {product.price}</p>
                     </CardContent>
                     <CardFooter>
                     <Button onClick={() => deleteProduct(product.id)}>
