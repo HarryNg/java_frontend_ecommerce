@@ -3,7 +3,7 @@ import { Home } from "./pages/home"
 import { NavBar } from "./pages/nav-bar";
 import { ProductPage } from "./pages/product-page";
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <NavBar />,
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <div>Your Profile</div>,
-      },,
+      },
       {
         path: '/dashboard',
         element: <div>Dashboard</div>,
