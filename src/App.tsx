@@ -2,6 +2,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Home } from "./pages/home"
 import { NavBar } from "./pages/nav-bar";
 import { ProductPage } from "./pages/product-page";
+import { Login } from './pages/login';
+import { UserProvider } from './provider/user-provider';
 
 export const router = createBrowserRouter([
   {
@@ -14,7 +16,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/login',
-        element: <div>Login</div>,
+        element: <Login />,
       },
       {
         path: '/profile',
@@ -41,7 +43,9 @@ export const router = createBrowserRouter([
 ])
 function App() {
   return (
-    <RouterProvider router={router} />
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   )
 }
 
