@@ -54,7 +54,7 @@ export const NavBar = () => {
                 <img src={search_icon} alt="" className="w-5 h-5 cursor-pointer"/>
             </div>
 
-            <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${showMenu ? 'w-full' : 'w-0'}`}>
+            <div className={`absolute top-0 right-0 bottom-0 overflow-hidden sm:hidden md:hidden lg:hidden bg-white transition-all ${showMenu ? 'w-full' : 'w-0'}`}>
                 <div className="flex flex-col text-gray-600">
                     <div onClick={()=>setShowMenu(false)} className="flex cursor-pointer items-center gap-4 p-3">
                         <img src={dropdown_icon} className="h-4 rotate-180" alt="" />

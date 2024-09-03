@@ -13,7 +13,8 @@ import { useCreateProduct, useDeleteProduct, useGetProducts } from "@/features/u
 import { Button } from "@/components/ui/button";
 import { ProductForm } from "@/components/product-form";
 
-  
+// TODO: Implement pagination
+// TODO: Implement Dashboard Views for Orders, Users, and Products
 export function Dashboard(){
     const products = useGetProducts();
     if(products.isLoading){
