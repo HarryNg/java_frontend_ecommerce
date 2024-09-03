@@ -5,6 +5,7 @@ import { ProductPage } from "./pages/product-page";
 import { Login } from './pages/login';
 import { UserProvider } from './provider/user-provider';
 import { Dashboard } from './pages/dashboard';
+import { Profile } from './pages/profile';
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <div>Your Profile</div>,
+        element: <Profile />,
       },
       {
         path: '/dashboard',
