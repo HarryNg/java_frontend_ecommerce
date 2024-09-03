@@ -7,7 +7,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function isTokenValid(decodedToken: Token): boolean {
-  if (decodedToken.exp < decodedToken.iat) {
+  if(!decodedToken || !decodedToken.exp) {
+    return false
+  }
+  const currentTime = Math.floor(Date.now() / 1000)
+
+  if (decodedToken.exp < currentTime) {
     return false
   }
 

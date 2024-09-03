@@ -17,14 +17,23 @@ export const useAuthenticate = () => {
         }
     }
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            const decodedToken = handleDecodeUser(token)
-            if (decodedToken && isTokenValid(decodedToken)) {
-                setUserId(decodedToken.user_id);
-            } else {
+        const userData = localStorage.getItem("userData");
+        if (userData) {
+            try{
+                const { token, userId } = JSON.parse(userData);
+                const decodedToken = handleDecodeUser(token);
+                if (decodedToken && isTokenValid(decodedToken)) {
+                    setUserId(userId);
+                } else {
+                    router.navigate("/login");
+                }
+            }
+            catch(error) {
+                console.error("Token decoding failed", error);
                 router.navigate("/login");
             }
+        } else {
+            router.navigate("/login");
         }
     }, [])
     return userId;

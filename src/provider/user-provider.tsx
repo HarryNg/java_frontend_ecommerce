@@ -1,13 +1,34 @@
 import { User } from "@/types";
-import { createContext} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useAuthenticate } from "@/features/use-authenticate";
 import { useUserDetails } from "@/features/use-user-details";
 
-export const userContext = createContext<User | null>(null);
+interface UserContext {
+    user: User | null;
+    logout: () => void;
+}
+
+export const userContext = createContext<UserContext | null>(null);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const userId = useAuthenticate();
-    const {data : user} = useUserDetails(userId);
+    const { data: user } = useUserDetails(userId);
+    const [userState, setUserState] = useState<User | null>(null);
+
     
-    return <userContext.Provider value={user}>{children}</userContext.Provider>
+    const logout = () => {
+        localStorage.removeItem("userData");
+        setUserState(null);
+    };
+    
+    useEffect(() => {
+        if (user?.data && userId) {
+            setUserState(user.data);
+        }
+    }, [user, userId]);
+    return (
+        <userContext.Provider value={{ user: userState, logout }}>
+            {children}
+        </userContext.Provider>
+    );
 }

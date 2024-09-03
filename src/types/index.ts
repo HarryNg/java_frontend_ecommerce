@@ -17,10 +17,11 @@ export type User = {
   id: string;
   email: string;
   password: string;
+  firstName: string;
 }
 
 export type Token = {
-  user_id: string;
+  sub: string;
   iat: number;
   exp: number;
 }
