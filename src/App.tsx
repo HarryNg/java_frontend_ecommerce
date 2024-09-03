@@ -4,6 +4,7 @@ import { NavBar } from "./pages/nav-bar";
 import { ProductPage } from "./pages/product-page";
 import { Login } from './pages/login';
 import { UserProvider } from './provider/user-provider';
+import { Dashboard } from './pages/dashboard';
 
 export const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/dashboard',
-        element: <div>Dashboard</div>,
+        element: <Dashboard />,
       },
       {
         path: '/product/:id',

@@ -43,9 +43,6 @@ export function Home() {
         deleteProduct={handleDeleteProduct}
       />
 
-
-    
-
     </div>
   )
 }
