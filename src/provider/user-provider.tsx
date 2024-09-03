@@ -1,5 +1,5 @@
 import { User } from "@/types";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useAuthenticate } from "@/features/use-authenticate";
 import { useUserDetails } from "@/features/use-user-details";
 
@@ -13,7 +13,7 @@ export const userContext = createContext<UserContext | null>(null);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const userId = useAuthenticate();
-    const { data: user } = useUserDetails(userId);
+    const { data: userDetail } = useUserDetails(userId);
     const [userState, setUserState] = useState<User | null>(null);
 
     
@@ -26,10 +26,11 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }
     
     useEffect(() => {
-        if (user?.data && userId) {
-            setUserState(user.data);
+        if (userDetail?.data && userId) {
+            setUserState(userDetail.data);
         }
-    }, [user, userId]);
+    }, [userDetail, userId]);
+
     return (
         <userContext.Provider value={{ user: userState, logout, login }}>
             {children}

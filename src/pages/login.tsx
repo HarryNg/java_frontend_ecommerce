@@ -22,6 +22,7 @@ export function Login() {
     confirmPassword: "",
     firstName: "",
   });
+  
   useEffect(() => {
     if (userDataContext?.user) {
       navigate("/profile");
