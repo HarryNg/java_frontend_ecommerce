@@ -6,6 +6,7 @@ import { useUserDetails } from "@/features/use-user-details";
 interface UserContext {
     user: User | null;
     logout: () => void;
+    login: (user: User) => void;
 }
 
 export const userContext = createContext<UserContext | null>(null);
@@ -20,6 +21,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem("userData");
         setUserState(null);
     };
+    const login = (user: User) => {
+        setUserState(user);
+    }
     
     useEffect(() => {
         if (user?.data && userId) {
@@ -27,7 +31,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         }
     }, [user, userId]);
     return (
-        <userContext.Provider value={{ user: userState, logout }}>
+        <userContext.Provider value={{ user: userState, logout, login }}>
             {children}
         </userContext.Provider>
     );

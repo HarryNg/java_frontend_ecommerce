@@ -12,7 +12,7 @@ const USER_STATES = {
 };
 
 export function Login() {
-  const userData = useContext(userContext);
+  const userDataContext = useContext(userContext);
   const navigate = useNavigate();
   const [formState, setFormState] = useState(USER_STATES.LOGIN);
 
@@ -23,10 +23,10 @@ export function Login() {
     firstName: "",
   });
   useEffect(() => {
-    if (userData?.user) {
+    if (userDataContext?.user) {
       navigate("/profile");
     }
-  }, [userData, navigate]);
+  }, [userDataContext, navigate]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,6 +46,7 @@ export function Login() {
       const { token, user } = response.data.data;
       const userData = { token, userId: user.id }; 
       localStorage.setItem("userData", JSON.stringify(userData));
+      userDataContext?.login(user);
       navigate("/profile");
     } catch (error) {
       console.error("Login failed", error);
@@ -66,8 +67,8 @@ export function Login() {
     }
   };
 
-  if (userData?.user) {
-    return <p>Hello {userData.user?.firstName}, you are already logged in</p>;
+  if (userDataContext?.user) {
+    return <p>Hello {userDataContext.user?.firstName}, you are already logged in</p>;
   }
 
   return (
