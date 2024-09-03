@@ -14,6 +14,7 @@ const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
   price: z.number().positive("Price must be positive"),
   description: z.string().optional(),
+  category: z.string().optional(),
   images: z.array(z.string()).optional(),
   color: z.string().optional(),
   rating: z.number().min(0).max(5).optional(),
@@ -29,7 +30,8 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
         name: "",
         price: 0,
         description: "",
-        images: [],
+        category: "",
+        images: ["https://via.placeholder.com/150"],
         color: "None",
         rating: 0,
         stock: 0,
@@ -40,6 +42,7 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
     onAddProduct({
         ...data,
         description: data.description?.trim() || "No description",
+        category: data.category?.trim() || "No category",
         images: data.images ?? [],        
         color: data.color ?? "",           
         rating: data.rating ?? 0, 
@@ -93,6 +96,19 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
                         <FormLabel>Description</FormLabel>
                         <FormControl>
                             <Input placeholder="Product description" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={formMethods.control}
+                name="category"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Category</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Product category" {...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
