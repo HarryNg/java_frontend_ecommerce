@@ -7,6 +7,7 @@ interface UserContextType {
     user: User | null;
     logout: () => void;
     login: (token: string) => void;
+    update: (user: User) => void;
 }
 
 export const userContext = createContext<UserContextType | null>(null);
@@ -36,8 +37,12 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
     };
 
+    const update = (user: User | null) => {
+        setUser(user);
+    }
+
     return (
-        <userContext.Provider value={{ user, logout, login }}>
+        <userContext.Provider value={{ user, logout, login, update }}>
             {children}
         </userContext.Provider>
     );

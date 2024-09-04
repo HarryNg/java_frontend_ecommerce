@@ -14,13 +14,14 @@ export type ProductCreate = Omit<Product, "id">
 export type ProductUpdate = Partial<ProductCreate>
 
 export type User = {
-  id: string;
+  id?: string ;
   email: string;
   password: string;
   firstName: string;
   lastName: string;
   address: string;
-  phone: string;
+  phoneNumber: string;
+  birthDate: string;
   avatar: string;
 }
 
