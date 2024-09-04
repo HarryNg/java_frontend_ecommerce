@@ -1,26 +1,20 @@
 import api from "@/api";
 import { EditingForm, UserDetails } from "@/components/profile-form";
 import { Button } from "@/components/ui/button";
-import { userContext } from "@/provider/user-provider";
 import { ChangeEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useUserData } from "@/features/use-user-data";
+import { useValidation } from "@/features/use-user-validation";
+import { userContext } from "@/provider/user-provider";
 
 export function Profile() {
   const { user, update, logout } = useContext(userContext) || {};
   const navigate = useNavigate();
+  const [formData, setFormData] = useUserData();
+  const { validate } = useValidation(formData, user);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    user_id: user?.id || '',
-    email: user?.email || '',
-    password: user?.password || '',
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    address: user?.address || '',
-    phoneNumber: user?.phoneNumber || '',
-    birthDate: user?.birthDate || '23-03-1993',
-    avatar: user?.avatar || '',
-  });
 
   const handleLogout = () => {
     if (logout) {
@@ -44,6 +38,9 @@ export function Profile() {
   const handleSave = async () => {
     try {
       if (!user) return;
+
+      // Validate form data
+      if (!validate()) return;
 
       const token = localStorage.getItem("token");
 
@@ -77,6 +74,7 @@ export function Profile() {
       setIsEditing(false);
     } catch (error) {
       console.error("Error saving user info", error);
+      toast.error("An error occurred while saving your info");
     }
   };
 
@@ -123,4 +121,3 @@ export function Profile() {
     </div>
   );
 }
-

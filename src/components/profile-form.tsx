@@ -1,7 +1,7 @@
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export function EditingForm({ formData, handleChange, handleSave }: any) {
+export function EditingForm({ formData, handleChange, handleSave,validationErrors }: any) {
     return (
       <div className="space-y-4">
         {[
