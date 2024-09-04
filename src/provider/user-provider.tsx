@@ -1,38 +1,43 @@
 import { User } from "@/types";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useAuthenticate } from "@/features/use-authenticate";
 import { useUserDetails } from "@/features/use-user-details";
 
-interface UserContext {
+interface UserContextType {
     user: User | null;
     logout: () => void;
-    login: (user: User) => void;
+    login: (token: string) => void;
 }
 
-export const userContext = createContext<UserContext | null>(null);
+export const userContext = createContext<UserContextType | null>(null);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
     const userId = useAuthenticate();
     const { data: userDetail } = useUserDetails(userId);
-    const [userState, setUserState] = useState<User | null>(null);
 
-    
-    const logout = () => {
-        localStorage.removeItem("userData");
-        setUserState(null);
-    };
-    const login = (user: User) => {
-        setUserState(user);
-    }
-    
+    const [user, setUser] = useState<User | null>(null);
+
+    // Update user context when userDetail is fetched
     useEffect(() => {
-        if (userDetail?.data && userId) {
-            setUserState(userDetail.data);
+        if (userDetail?.data) {
+            setUser(userDetail.data);
         }
-    }, [userDetail, userId]);
+    }, [userDetail]);
+
+    // Set user data and local storage
+    const login = (token: string) => {
+        localStorage.setItem("token", token);
+        setUser(userDetail.data);
+    }
+
+    // Clear user data and local storage
+    const logout = () => {
+        localStorage.removeItem("token");
+        setUser(null);
+    };
 
     return (
-        <userContext.Provider value={{ user: userState, logout, login }}>
+        <userContext.Provider value={{ user, logout, login }}>
             {children}
         </userContext.Provider>
     );

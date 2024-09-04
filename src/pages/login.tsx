@@ -3,7 +3,7 @@ import { LoginForm } from "@/components/login-form";
 import { SignupForm } from "@/components/signup-form";
 import { Button } from "@/components/ui/button";
 import { userContext } from "@/provider/user-provider";
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const USER_STATES = {
@@ -22,12 +22,6 @@ export function Login() {
     confirmPassword: "",
     firstName: "",
   });
-  
-  useEffect(() => {
-    if (userDataContext?.user) {
-      navigate("/profile");
-    }
-  }, [userDataContext, navigate]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,10 +38,9 @@ export function Login() {
         email: credentials.email,
         password: credentials.password,
       });
-      const { token, user } = response.data.data;
-      const userData = { token, userId: user.id }; 
-      localStorage.setItem("userData", JSON.stringify(userData));
-      userDataContext?.login(user);
+
+      const { token } = response.data.data;
+      userDataContext?.login(token);
       navigate("/profile");
     } catch (error) {
       console.error("Login failed", error);
@@ -62,14 +55,16 @@ export function Login() {
         password: credentials.password,
         firstName: credentials.firstName,
       });
+
       setFormState(USER_STATES.LOGIN);
     } catch (error) {
       console.error("Signup failed", error);
     }
   };
 
-  if (userDataContext?.user) {
-    return <p>Hello {userDataContext.user?.firstName}, you are already logged in</p>;
+  // If user is already logged in, show a message
+  if (userDataContext?.user !== null) {
+    return <p>Hello {userDataContext?.user.firstName}, you are already logged in</p>;
   }
 
   return (

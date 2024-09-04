@@ -26,6 +26,7 @@ export type User = {
 
 export type Token = {
   sub: string;
+  id: string;
   iat: number;
   exp: number;
 }

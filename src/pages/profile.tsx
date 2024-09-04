@@ -5,25 +5,28 @@ import { ChangeEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function Profile() {
-  const userData = useContext(userContext); 
+  const userContextData = useContext(userContext);
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    address: userData?.user?.address || '',
-    phone: userData?.user?.phone || '',
+    firstName: userContextData?.user?.firstName || '',
+    lastName: userContextData?.user?.lastName || '',
+    address: userContextData?.user?.address || '',
+    phone: userContextData?.user?.phone || '',
   });
 
   const handleLogout = () => {
-    if (userData) {
-      userData.logout(); 
-      navigate("/login"); 
+    if (userContextData?.logout) {
+      userContextData.logout();
+      navigate("/login");
     }
   };
 
-  if (!userData || !userData.user) {
-    return <p>Please log in to access your profile.</p>; 
+  if (!userContextData?.user) {
+    return <p>Please log in to access your profile.</p>;
   }
+
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
@@ -37,7 +40,7 @@ export function Profile() {
   };
 
   const handleSave = () => {
-    // TODO: update user info
+    // TODO: Save user info using API
     console.log('Saving user info', formData);
     setIsEditing(false);
   };
@@ -48,7 +51,7 @@ export function Profile() {
         {/* Avatar and Profile Picture */}
         <div className="flex flex-col items-center">
           <img
-            src={userData.user.avatar || 'https://avatar.iran.liara.run/public/27'} 
+            src={userContextData.user.avatar || 'http://placekitten.com/200/300'} 
             alt="User Avatar"
             className="w-32 h-32 rounded-full object-cover mb-4"
           />
@@ -58,12 +61,32 @@ export function Profile() {
         {/* User Details */}
         <div className="flex flex-col space-y-4">
           <div className="text-xl font-semibold mb-2">
-            <p>Hello, {userData.user.firstName}</p>
-            <p className="text-gray-600">{userData.user.email}</p>
+            <p>Hello, {userContextData.user.firstName}</p>
+            <p className="text-gray-600">{userContextData.user.email}</p>
           </div>
 
           {isEditing ? (
             <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">First Name</label>
+                <Input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  placeholder="Enter your first name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Last Name</label>
+                <Input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter your last name"
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Address</label>
                 <Input
@@ -88,8 +111,10 @@ export function Profile() {
             </div>
           ) : (
             <div>
-              <p><strong>Address:</strong> {userData.user.address || 'N/A'}</p>
-              <p><strong>Phone:</strong> {userData.user.phone || 'N/A'}</p>
+              <p><strong>First Name:</strong> {userContextData.user.firstName || 'N/A'}</p>
+              <p><strong>Last Name:</strong> {userContextData.user.lastName || 'N/A'}</p>
+              <p><strong>Address:</strong> {userContextData.user.address || 'N/A'}</p>
+              <p><strong>Phone:</strong> {userContextData.user.phone || 'N/A'}</p>
               <Button onClick={handleEditToggle} className="bg-green-500 text-white">Edit</Button>
             </div>
           )}

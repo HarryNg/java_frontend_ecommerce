@@ -17,13 +17,12 @@ export const useAuthenticate = () => {
         }
     }
     useEffect(() => {
-        const userData = localStorage.getItem("userData");
-        if (userData) {
+        const token = localStorage.getItem("token");
+        if (token) {
             try{
-                const { token, userId } = JSON.parse(userData);
                 const decodedToken = handleDecodeUser(token);
                 if (decodedToken && isTokenValid(decodedToken)) {
-                    setUserId(userId);
+                    setUserId(decodedToken.id);
                 } else {
                     router.navigate("/login");
                 }
