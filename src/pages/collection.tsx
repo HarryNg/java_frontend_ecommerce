@@ -8,12 +8,15 @@ import ProductItem from "@/components/product-item";
 
 const Collection = () => {
     const products = useContext(productProvider)?.products;
+    const search = useContext(productProvider)?.search;
+    const showSearch = useContext(productProvider)?.showSearch;
     const itemsLimit = 25;
     const [showFilter, setShowFilter] = useState(false);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [category, setCategory] = useState<string[]>([]);
     const [subCategory, setSubCategory] = useState<string[]>([]);
     const [sortType, setSortType] = useState<string>('relevant');
+
 
     const toggleCategory = (e: ChangeEvent<HTMLInputElement>) => {
         setCategory((prev) =>
@@ -51,6 +54,10 @@ const Collection = () => {
     useEffect(() => {
         let productsCopy = products ? [...products] : [];
 
+        // Apply search filter
+        if(showSearch && search){
+            productsCopy = productsCopy.filter(product => product.name.toLowerCase().includes(search.toLowerCase()));
+        }
         // Apply category filter
         if (category.length > 0) {
             productsCopy = productsCopy.filter(product => category.includes(product.category.toLowerCase()));
@@ -70,7 +77,7 @@ const Collection = () => {
             setFilteredProducts(sortedProducts);
         }
 
-    }, [products, category, subCategory,sortType]);
+    }, [products, category, subCategory,sortType, search, showSearch]);
 
 
 

@@ -5,10 +5,14 @@ import cart_icon from "../assets/cart_icon.png"
 import menu_icon from "../assets/menu_icon.png"
 import dropdown_icon from "../assets/dropdown_icon.png"
 
-import { useState } from "react"
+import { useContext, useState } from "react"
+import SearchBar from "@/components/search-bar"
+import { productProvider } from "@/provider/product-provider"
 
 export const NavBar = () => {
     const [showMenu, setShowMenu] = useState(false);
+    const setShowSearch = useContext(productProvider)?.setShowSearch;
+
     return (
         <nav className="items-center justify-between p-5 font-medium">
             <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
@@ -51,7 +55,7 @@ export const NavBar = () => {
             </div>
 
             <div className="float-end px-3">
-                <img src={search_icon} alt="" className="w-5 h-5 cursor-pointer"/>
+                <img onClick={()=>setShowSearch && setShowSearch(true)} src={search_icon} alt="" className="w-5 h-5 cursor-pointer"/>
             </div>
 
             <div className={`absolute top-0 right-0 bottom-0 overflow-hidden sm:hidden md:hidden lg:hidden bg-white transition-all ${showMenu ? 'w-full' : 'w-0'}`}>
@@ -66,6 +70,7 @@ export const NavBar = () => {
                     <NavLink onClick={()=>setShowMenu(false)} className='py-2 pl-6 border' to={'/orders'}>Orders</NavLink>
                 </div>
             </div>
+            <SearchBar/>
 
             <div><Outlet/></div>
         </nav>
