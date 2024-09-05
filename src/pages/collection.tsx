@@ -13,6 +13,7 @@ const Collection = () => {
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [category, setCategory] = useState<string[]>([]);
     const [subCategory, setSubCategory] = useState<string[]>([]);
+    const [sortType, setSortType] = useState<string>('relevant');
 
     const toggleCategory = (e: ChangeEvent<HTMLInputElement>) => {
         setCategory((prev) =>
@@ -27,7 +28,25 @@ const Collection = () => {
         prev.includes(e.target.value.toLocaleLowerCase())
             ? prev.filter(cat=> cat !== e.target.value.toLocaleLowerCase())
             : [...prev, e.target.value.toLocaleLowerCase()]);
-    }
+    };
+
+    
+    const sortProducts = (products: Product[]) => {
+        let sortedProducts = [...products];
+        switch (sortType) {
+            case "low-high":
+                sortedProducts.sort((a, b) => Number(a.price.toFixed(2)) - Number(b.price.toFixed(2)));
+                break;
+            case "high-low":
+                sortedProducts.sort((a, b) => Number(b.price.toFixed(2)) - Number(a.price.toFixed(2)));
+                break;
+            default:
+                break;
+        }
+
+        return sortedProducts;
+    };
+
 
     useEffect(() => {
         let productsCopy = products ? [...products] : [];
@@ -42,13 +61,18 @@ const Collection = () => {
             productsCopy = productsCopy.filter(product => subCategory.includes(product.subCategory?.toLowerCase()));
         }
 
+        const sortedProducts = sortProducts(productsCopy);
+
         // Limit items
-        if (productsCopy.length >= itemsLimit) {
-            setFilteredProducts(productsCopy.slice(0, itemsLimit));
+        if (sortedProducts.length >= itemsLimit) {
+            setFilteredProducts(sortedProducts.slice(0, itemsLimit));
         } else {
-            setFilteredProducts(productsCopy);
+            setFilteredProducts(sortedProducts);
         }
-    }, [products, category, subCategory]);
+
+    }, [products, category, subCategory,sortType]);
+
+
 
   return (
     <div className="flex flex-row m-auto w-full sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
@@ -99,7 +123,7 @@ const Collection = () => {
                 <div className="flex justify-between text-base sm:text-2xl mb-4">
                     <Title text1={'ALL'} text2={'COLLECTIONS'} />
                     {/*Sort by dropdown */}
-                    <select className="border-2 border-gray-300 px-2 py-1 rounded-sm text-sm">
+                    <select onChange={(e)=> setSortType(e.target.value)} className="border-2 border-gray-300 px-2 py-1 rounded-sm text-sm">
                         <option value="relevant">Sort By: Relevant</option>
                         <option value="low-hight">Sort By: Low to High</option>
                         <option value="high-low">Sort By: High to Low</option>
