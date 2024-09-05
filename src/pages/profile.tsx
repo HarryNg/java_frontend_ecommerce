@@ -37,7 +37,7 @@ export function Profile() {
 
   const handleSave = async () => {
     try {
-      if (!user) return;
+      if (typeof user !== "object" || !user) return <p>Please log in to access your profile.</p>;;
 
       // Validate form data
       if (!validate()) return;

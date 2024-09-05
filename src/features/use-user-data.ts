@@ -1,32 +1,57 @@
 import { useState, useEffect, useContext } from 'react';
 import { userContext } from '@/provider/user-provider';
 
+type FormData = {
+  user_id: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  phoneNumber: string;
+  birthDate: string;
+  avatar: string;
+};
+
 export function useUserData() {
   const { user } = useContext(userContext) || {};
-  const [formData, setFormData] = useState({
-    user_id: user?.id || '',
-    email: user?.email || '',
-    password: user?.password || '',
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    address: user?.address || '',
-    phoneNumber: user?.phoneNumber || '',
-    birthDate: user?.birthDate || '23-03-1993',
-    avatar: user?.avatar || '',
+
+  const [formData, setFormData] = useState<FormData>({
+    user_id: '',
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    phoneNumber: '',
+    birthDate: '23-03-1993',
+    avatar: '',
   });
 
   useEffect(() => {
-    if (user) {
+    if (typeof user !== 'string' && user) {
       setFormData({
         user_id: user.id || '',
-        email: user.email,
-        password: user.password,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        address: user.address,
-        phoneNumber: user.phoneNumber,
+        email: user.email || '',
+        password: user.password || '',
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        address: user.address || '',
+        phoneNumber: user.phoneNumber || '',
         birthDate: user.birthDate || '23-03-1993',
-        avatar: user.avatar,
+        avatar: user.avatar || '',
+      });
+    } else {
+      setFormData({
+        user_id: '',
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        address: '',
+        phoneNumber: '',
+        birthDate: '23-03-1993',
+        avatar: '',
       });
     }
   }, [user]);
