@@ -17,10 +17,15 @@ export function Login() {
   const [formState, setFormState] = useState(USER_STATES.LOGIN);
 
   const [credentials, setCredentials] = useState({
-    email: "",
+    email: "", // unique
     password: "",
     confirmPassword: "",
     firstName: "",
+    lastName: "",
+    address: null,
+    phoneNumber: null, // unique
+    birthDate: "11-11-1999",
+    role: "ADMIN", // default required
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,10 +57,15 @@ export function Login() {
     try {
       await api.post("/users/register", {
         email: credentials.email,
-        password: credentials.password,
+        password: credentials.password ,
         firstName: credentials.firstName,
+        lastName: credentials.lastName || "Noane",
+        address: credentials.address || null,
+        birthDate: credentials.birthDate || "1-11-1899",
+        phoneNumber: credentials.phoneNumber,
+        role: "ADMIN",
       });
-
+      navigate("/login");
       setFormState(USER_STATES.LOGIN);
     } catch (error) {
       console.error("Signup failed", error);
@@ -63,7 +73,7 @@ export function Login() {
   };
 
   // If user is already logged in, show a message
-  if (userDataContext?.user !== null) {
+  if ( userDataContext?.user !== null && userDataContext?.user !== undefined && typeof userDataContext?.user !== "string") {
     return <p>Hello {userDataContext?.user.firstName}, you are already logged in</p>;
   }
 

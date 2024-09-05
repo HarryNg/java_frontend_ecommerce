@@ -4,7 +4,7 @@ import { useAuthenticate } from "@/features/use-authenticate";
 import { useUserDetails } from "@/features/use-user-details";
 
 interface UserContextType {
-    user: User | null;
+    user: User | string;
     logout: () => void;
     login: (token: string) => void;
     update: (user: User) => void;
@@ -16,7 +16,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const userId = useAuthenticate();
     const { data: userDetail } = useUserDetails(userId);
 
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | string>("Guest");
 
     // Update user context when userDetail is fetched
     useEffect(() => {
@@ -34,10 +34,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     // Clear user data and local storage
     const logout = () => {
         localStorage.removeItem("token");
-        setUser(null);
+        setUser("Guest");
     };
 
-    const update = (user: User | null) => {
+    const update = (user: User | string) => {
         setUser(user);
     }
 

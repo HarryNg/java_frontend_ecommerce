@@ -8,7 +8,8 @@ export function SignupForm({ onSubmit, onChange }: { onSubmit: (e: FormEvent) =>
         <Input name="email" placeholder="Your email" onChange={onChange} />
         <Input name="password" placeholder="Your password" type="password" onChange={onChange} />
         <Input name="confirmPassword" placeholder="Confirm your password" type="password" onChange={onChange} />
-        <Input name="firstName" placeholder="Your name (Optional)" onChange={onChange} />
+        <Input name="firstName" placeholder="Your name" onChange={onChange} />
+        <Input name="phonenumber" placeholder="Your phone number" onChange={onChange} />
         <Button type="submit">Sign Up</Button>
       </form>
     );
