@@ -12,7 +12,7 @@ import { productProvider } from "@/provider/product-provider"
 export const NavBar = () => {
     const [showMenu, setShowMenu] = useState(false);
     const setShowSearch = useContext(productProvider)?.setShowSearch;
-
+    const getCartCount = useContext(productProvider)?.getCartCount;
     return (
         <nav className="items-center justify-between p-5 font-medium">
             <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
@@ -40,7 +40,7 @@ export const NavBar = () => {
             
             <Link to="/cart" className="float-end px-3">
                 <img src={cart_icon} className="w-5 min-w-5" alt="" />
-                <p className="relative bottom-[5px] right-[-8px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">10</p>
+                <p className="relative bottom-[5px] right-[-8px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">{getCartCount ? getCartCount() : 0}</p>
             </Link>
 
             <div className="float-end px-3 group relative">

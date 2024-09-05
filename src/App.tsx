@@ -7,6 +7,7 @@ import { UserProvider } from './provider/user-provider';
 import { Dashboard } from './pages/dashboard';
 import { Profile } from './pages/profile';
 import { ProductProvider } from './provider/product-provider';
+import Cart from './pages/cart';
 
 export const router = createBrowserRouter([
   {
@@ -35,7 +36,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/cart',
-        element: <div>Cart is under development</div>,
+        element: <Cart />,
       },
       {
         path: '/orders',
