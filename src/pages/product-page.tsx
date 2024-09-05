@@ -1,6 +1,4 @@
 import { useGetOneProduct } from "@/features/use-products";
-import { productProvider } from "@/provider/product-provider";
-import { useContext } from "react";
 import { useParams } from "react-router-dom";
 
 export function ProductPage(){

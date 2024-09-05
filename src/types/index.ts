@@ -4,12 +4,14 @@ export type Product = {
   price: number;
   description: string;
   category: string;
+  subCategory: string;
   images: string[];
   color: string;
   rating: number;
   stock: number;
   bestSeller: boolean;
   isDeleted: boolean;
+  size: string;
 }
 
 export type ProductCreate = Omit<Product, "id">

@@ -5,6 +5,7 @@ import { ProductCreate } from "@/types";
 import Hero from "@/components/hero";
 import LatestCollection from "@/components/latest-collection";
 import BestSeller from "@/components/best-seller";
+import Collection from "./collection";
 
 export function Home() {
   const {products , error: fetchError, isLoading: fetchLoading } = useGetProducts();
@@ -40,6 +41,7 @@ export function Home() {
       <Hero />
       <LatestCollection />
       <BestSeller />
+      <Collection />
       <ProductForm 
         onAddProduct = {handleAddProduct}
       />
@@ -48,6 +50,8 @@ export function Home() {
         products={products} 
         deleteProduct={handleDeleteProduct}
       />
+
+    
 
     </div>
   )
