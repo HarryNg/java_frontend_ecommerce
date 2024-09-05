@@ -8,6 +8,8 @@ export type Product = {
   color: string;
   rating: number;
   stock: number;
+  bestSeller: boolean;
+  isDeleted: boolean;
 }
 
 export type ProductCreate = Omit<Product, "id">

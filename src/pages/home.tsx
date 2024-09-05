@@ -2,6 +2,9 @@ import { useCreateProduct, useDeleteProduct, useGetProducts } from "@/features/u
 import { ProductList } from "@/components/product-list"
 import { ProductForm } from "@/components/product-form"
 import { ProductCreate } from "@/types";
+import Hero from "@/components/hero";
+import LatestCollection from "@/components/latest-collection";
+import BestSeller from "@/components/best-seller";
 
 export function Home() {
   const {products , error: fetchError, isLoading: fetchLoading } = useGetProducts();
@@ -32,8 +35,11 @@ export function Home() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center gap-10">
+    <div className="flex flex-col justify-center w-full items-center gap-10">
       <h1 className="text-2xl">Welcome!</h1>
+      <Hero />
+      <LatestCollection />
+      <BestSeller />
       <ProductForm 
         onAddProduct = {handleAddProduct}
       />

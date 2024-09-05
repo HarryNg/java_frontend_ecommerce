@@ -1,9 +1,10 @@
 import { useGetOneProduct } from "@/features/use-products";
+import { productProvider } from "@/provider/product-provider";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
 
 export function ProductPage(){
     const {id = ""} = useParams<{id : string}>();
-    
     const product  = useGetOneProduct(id);
 
     if(!product) return <p>Loading product...</p>;

@@ -6,6 +6,7 @@ import { Login } from './pages/login';
 import { UserProvider } from './provider/user-provider';
 import { Dashboard } from './pages/dashboard';
 import { Profile } from './pages/profile';
+import { ProductProvider } from './provider/product-provider';
 
 export const router = createBrowserRouter([
   {
@@ -46,7 +47,9 @@ export const router = createBrowserRouter([
 function App() {
   return (
     <UserProvider>
-      <RouterProvider router={router} />
+      <ProductProvider>
+        <RouterProvider router={router} />
+      </ProductProvider>
     </UserProvider>
   )
 }
