@@ -68,12 +68,14 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
         ...data,
         description: data.description?.trim() || "No description",
         category: data.category?.trim() || "No category",
+        subCategory: "kid",
         images: imageList, 
         color: data.color ?? "",
         rating: data.rating ?? 0,
         stock: data.stock ?? 0,
         bestSeller: data.bestSeller ?? false,
         isDeleted: false,
+        size: "M",
     });
   };
 
