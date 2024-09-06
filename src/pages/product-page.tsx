@@ -28,7 +28,7 @@ export function ProductPage() {
     const [image, setImage] = useState<string>('');  
 
     useEffect(() => {
-        if (product) {
+        if (product&& !image) {
             setProductData(product);  
             setImage(product.images?.[0] || placeholderImages[0]);  
         }

@@ -12,7 +12,7 @@ import {
 import { useCreateProduct, useDeleteProduct, useGetProducts } from "@/features/use-products";
 import { Button } from "@/components/ui/button";
 import { ProductForm } from "@/components/product-form";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { userContext } from "@/provider/user-provider";
 import { Navigate } from "react-router-dom";
 
@@ -20,8 +20,9 @@ import { Navigate } from "react-router-dom";
 // TODO: Implement Dashboard Views for Orders, Users, and Products
 export function Dashboard(){
     const {user} = useContext(userContext) || {};
+    const [isUserLoading, setIsUserLoading] = useState(true);
     const products = useGetProducts();
-    if(products.isLoading){
+    if(isUserLoading&&products.isLoading){
         return <div>Loading...</div>
     }
     if(products.error != null){
@@ -29,6 +30,12 @@ export function Dashboard(){
     }
     const productDelete = useDeleteProduct();
     const productAdd = useCreateProduct();
+    
+    useEffect(() => {
+        if (user && user !== "Guest" ) {
+            setIsUserLoading(false); // Stop loading once user details are available
+        }
+    }, [user]);
 
     const handleAddProduct = (product : ProductCreate) => {
         productAdd.mutate(product, {

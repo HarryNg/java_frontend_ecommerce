@@ -132,7 +132,7 @@ const Collection = () => {
                     {/*Sort by dropdown */}
                     <select onChange={(e)=> setSortType(e.target.value)} className="border-2 border-gray-300 px-2 py-1 rounded-sm text-sm">
                         <option value="relevant">Sort By: Relevant</option>
-                        <option value="low-hight">Sort By: Low to High</option>
+                        <option value="low-high">Sort By: Low to High</option>
                         <option value="high-low">Sort By: High to Low</option>
                     </select>
             </div>
