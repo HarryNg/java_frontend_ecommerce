@@ -12,10 +12,14 @@ import {
 import { useCreateProduct, useDeleteProduct, useGetProducts } from "@/features/use-products";
 import { Button } from "@/components/ui/button";
 import { ProductForm } from "@/components/product-form";
+import { useContext } from "react";
+import { userContext } from "@/provider/user-provider";
+import { Navigate } from "react-router-dom";
 
 // TODO: Implement pagination
 // TODO: Implement Dashboard Views for Orders, Users, and Products
 export function Dashboard(){
+    const {user} = useContext(userContext) || {};
     const products = useGetProducts();
     if(products.isLoading){
         return <div>Loading...</div>
@@ -45,6 +49,10 @@ export function Dashboard(){
         console.error("Error deleting product:", error);
         }
     });
+    }
+    // Check if user is authorized
+    if (user === "Guest") {
+        return <Navigate to="/unauthorized" replace />;
     }
 
     return <div>

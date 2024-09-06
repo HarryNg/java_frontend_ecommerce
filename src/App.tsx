@@ -45,6 +45,10 @@ export const router = createBrowserRouter([
         element: <PlaceOrder />,
       },
       {
+        path: '/unauthorized',
+        element: <div>Unauthorized</div>,
+      },
+      {
         path: '/order',
         element: <Order />,
       }
