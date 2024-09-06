@@ -5,7 +5,8 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { z } from "zod";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useContext } from "react";
+import { productProvider } from "@/provider/product-provider";
 
 interface ProductFormProps {
   onAddProduct: (product: ProductCreate) => void;
@@ -21,30 +22,30 @@ const productSchema = z.object({
   rating: z.number().min(0).max(5).optional(),
   stock: z.number().min(0).optional(),
   bestSeller: z.boolean().optional(),
-    isDeleted: z.boolean().optional(),
+  isDeleted: z.boolean().optional(),
 });
 
 type ProductFormInputs = z.infer<typeof productSchema>;
 
-
 interface CheckboxProps {
-    checked: boolean;
-    onChange: (checked: boolean) => void;
-    label: string;
-  }
-  
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label: string;
+}
+
 const Checkbox = ({ checked, onChange, label }: CheckboxProps) => (
-    <div className="flex items-center space-x-2">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.checked)}
-      />
-      <label>{label}</label>
-    </div>
-  );
+  <div className="flex items-center space-x-2">
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.checked)}
+    />
+    <label>{label}</label>
+  </div>
+);
 
 export function ProductForm({ onAddProduct }: ProductFormProps) {
+  const placeholderImages = useContext(productProvider)?.placeholderImages || [];
   const formMethods = useForm<ProductFormInputs>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -59,23 +60,29 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
     },
   });
 
+  const getRandomImage = () => {
+    if (placeholderImages.length === 0) return "https://via.placeholder.com/150";
+    const randomIndex = Math.floor(Math.random() * placeholderImages.length);
+    return placeholderImages[randomIndex];
+  };
+
   const onSubmit: SubmitHandler<ProductFormInputs> = (data) => {
     const imageList = data.images
       ? data.images.split(",").map((img) => img.trim())
-      : ["https://via.placeholder.com/150"]; // Default image
+      : [getRandomImage()];
 
     onAddProduct({
-        ...data,
-        description: data.description?.trim() || "No description",
-        category: data.category?.trim() || "No category",
-        subCategory: "kid",
-        images: imageList, 
-        color: data.color ?? "",
-        rating: data.rating ?? 0,
-        stock: data.stock ?? 0,
-        bestSeller: data.bestSeller ?? false,
-        isDeleted: false,
-        size: "M",
+      ...data,
+      description: data.description?.trim() || "No description",
+      category: data.category?.trim() || "No category",
+      subCategory: "kids",
+      images: imageList, 
+      color: data.color ?? "",
+      rating: data.rating ?? 0,
+      stock: data.stock ?? 0,
+      bestSeller: data.bestSeller ?? false,
+      isDeleted: false,
+      size: "S",
     });
   };
 
@@ -224,27 +231,23 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
             )}
           />
 
-            {/* Best Seller */}
-            <FormField
-                control={formMethods.control}
-                name="bestSeller"
-                render={({ field }) => (
-                    <FormItem>
-                        {/* <FormLabel>Best Seller</FormLabel> */}
-                        <FormControl>
-                        <Checkbox
-                            checked={field.value || false}
-                            onChange={field.onChange}
-                            label="Best Seller"
-                        />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
-            
-
-
+          {/* Best Seller */}
+          <FormField
+            control={formMethods.control}
+            name="bestSeller"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Checkbox
+                    checked={field.value || false}
+                    onChange={field.onChange}
+                    label="Best Seller"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <Button type="submit" className="w-1/4 self-center m-2">
           Add Product

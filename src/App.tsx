@@ -7,7 +7,9 @@ import { UserProvider } from './provider/user-provider';
 import { Dashboard } from './pages/dashboard';
 import { Profile } from './pages/profile';
 import { ProductProvider } from './provider/product-provider';
-import Cart from './pages/cart';
+import {Cart} from './pages/cart';
+import {PlaceOrder} from './pages/place-order';
+import {Order} from './pages/order';
 
 export const router = createBrowserRouter([
   {
@@ -39,8 +41,12 @@ export const router = createBrowserRouter([
         element: <Cart />,
       },
       {
-        path: '/orders',
-        element: <div>Your order's details</div>,
+        path: '/place-order',
+        element: <PlaceOrder />,
+      },
+      {
+        path: '/order',
+        element: <Order />,
       }
     ]
   }

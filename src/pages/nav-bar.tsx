@@ -8,11 +8,18 @@ import dropdown_icon from "../assets/dropdown_icon.png"
 import { useContext, useState } from "react"
 import SearchBar from "@/components/search-bar"
 import { productProvider } from "@/provider/product-provider"
+import { userContext } from "@/provider/user-provider"
 
 export const NavBar = () => {
     const [showMenu, setShowMenu] = useState(false);
     const setShowSearch = useContext(productProvider)?.setShowSearch;
     const getCartCount = useContext(productProvider)?.getCartCount;
+    const {logout } = useContext(userContext) || {};
+    const handleLogout = () => {
+        if (logout) {
+          logout();
+        }
+      };
     return (
         <nav className="items-center justify-between p-5 font-medium">
             <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
@@ -44,12 +51,16 @@ export const NavBar = () => {
             </Link>
 
             <div className="float-end px-3 group relative">
-                <img className="w-5 cursor-pointer" src={profile_icon} alt="" />
+                <Link to='/login'><img className="w-5 cursor-pointer" src={profile_icon} alt="" /></Link>
                 <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
                     <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-                        <p className="cursor-pointer hover:text-black">My Profile</p>
+                        <Link to='/profile'>
+                            <p className="cursor-pointer hover:text-black">My Profile</p>
+                        </Link>
+                        <Link to='/order'>
                         <p className="cursor-pointer hover:text-black">Orders</p>
-                        <p className="cursor-pointer hover:text-black">Logout</p>
+                        </Link>
+                        <p onClick={handleLogout} className="cursor-pointer hover:text-black">Logout</p>
                     </div>
                 </div>
             </div>

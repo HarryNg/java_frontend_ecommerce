@@ -1134,6 +1134,11 @@
     magic-string "^0.27.0"
     react-refresh "^0.14.0"
 
+Faker@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/Faker/-/Faker-0.7.2.tgz#c2474bc77bb1d78018b6877d307bd7fdf082fb14"
+  integrity sha512-CNWg/i2kZrO/y8fqjRVbJeejInydPYb/qTNHU5S086eEWRRBwAxYvVvvM4G7Z8fQ4HQgZiL6z+sruCfsRg0RfQ==
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.3.2.tgz"

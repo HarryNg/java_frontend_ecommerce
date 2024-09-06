@@ -1,7 +1,16 @@
 import { useGetProducts } from "@/features/use-products";
 import { Product } from "@/types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { toast } from "react-toastify";
+import p_img4 from "@/assets/p_img4.png";
+import p_img1 from "@/assets/p_img1.png";
+import p_img10 from "@/assets/p_img10.png";
+import p_img8 from "@/assets/p_img8.png";
+import p_img33 from "@/assets/p_img33.png";
+import p_img34 from "@/assets/p_img34.png";
+import p_img5 from "@/assets/p_img5.png";
+import p_img19 from "@/assets/p_img19.png";
+import p_img29 from "@/assets/p_img29.png";
 
 interface ProductContextType {
     products: Product[];
@@ -14,9 +23,9 @@ interface ProductContextType {
     addToCart: (itemId: string, size: string) => void;
     cartItems: CartItems;
     getCartCount: () => number;
-    // addProduct: (product: Product) => void;
-    // deleteProduct: (id: string) => void;
-    // updateProduct: (id: string, product: Product) => void;
+    updateQuantity: (itemId: string, size: string, quantity: number) => void;
+    getCartAmount: () => number;
+    placeholderImages: string[];
 }
 export interface CartItems {
     [itemId: string]: {
@@ -31,6 +40,9 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
     const [search, setSearch] = useState("");
     const [showSearch, setShowSearch] = useState(false);
     const [cartItems, setCartItems] = useState<CartItems>({});
+    
+    // Placeholder images for the product images testing
+    const placeholderImages = [p_img4, p_img5, p_img19, p_img29, p_img1, p_img8, p_img10, p_img33, p_img34];
 
     const addToCart = async(itemId:string,size:string)=> {
         if( !size) {
@@ -67,11 +79,48 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
         }
         return count;
     }
+    const updateQuantity = async(itemId:string, size:string,quantity:number) => {
+        let cartData = structuredClone(cartItems);
+        if(cartData[itemId]){
+            if(cartData[itemId][size]){
+                cartData[itemId][size] = quantity;
+            }
+        }
+        setCartItems(cartData);
+    }
+
+    const getCartAmount = (): number => {
+        let amount = 0;
+        
+        for (const itemId in cartItems) {
+            for (const size in cartItems[itemId]) {
+                try {
+                    const quantity = cartItems[itemId][size];
+                    
+                    if (quantity > 0) {
+                        const product = products?.find(product => product.id === itemId);
+                        
+                        if (product) {
+                            amount += product.price * quantity;
+                        } else {
+                            console.warn(`Product with ID ${itemId} not found`);
+                        }
+                    }
+                } catch (e) {
+                    console.error(`Error calculating cart amount for item ${itemId}, size ${size}:`, e);
+                }
+            }
+        }
+        
+        return amount;
+    };
+    
 
     const product = {
         products, currency, deliveryCost,
         search, setSearch, showSearch, setShowSearch,
-        addToCart, cartItems, getCartCount
+        addToCart, cartItems, getCartCount, 
+        updateQuantity, getCartAmount, placeholderImages
     };
     return (
         <productProvider.Provider value={product}>

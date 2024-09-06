@@ -15,7 +15,6 @@ export function Login() {
   const userDataContext = useContext(userContext);
   const navigate = useNavigate();
   const [formState, setFormState] = useState(USER_STATES.LOGIN);
-
   const [credentials, setCredentials] = useState({
     email: "", // unique
     password: "",
@@ -72,6 +71,8 @@ export function Login() {
     }
   };
 
+ 
+
   // If user is already logged in, show a message
   if ( userDataContext?.user !== null && userDataContext?.user !== undefined && typeof userDataContext?.user !== "string") {
     return <p>Hello {userDataContext?.user.firstName}, you are already logged in</p>;
@@ -79,6 +80,7 @@ export function Login() {
 
   return (
     <div className="flex-col">
+
       <div className="flex flex-col items-center">
         <div className="inline-flex items-center gap-2 mb-2 mt-10">
           <p className="prata-regular text-3xl">{formState}</p>
