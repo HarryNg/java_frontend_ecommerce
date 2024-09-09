@@ -1,14 +1,8 @@
-import { User } from "@/types";
 import { createContext, useEffect, useState } from "react";
+
+import { User, UserContextType } from "@/types";
 import { useAuthenticate } from "@/features/use-authenticate";
 import { useUserDetails } from "@/features/use-user-details";
-
-interface UserContextType {
-    user: User | string;
-    logout: () => void;
-    login: (token: string) => void;
-    update: (user: User) => void;
-}
 
 export const userContext = createContext<UserContextType | null>(null);
 

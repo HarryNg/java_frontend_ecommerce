@@ -9,7 +9,7 @@ export type Product = {
   color: string;
   rating: number;
   stock: number;
-  bestSeller: boolean;
+  isBestSeller: boolean;
   isDeleted: boolean;
   size: string;
 }
@@ -17,8 +17,7 @@ export type Product = {
 export type ProductCreate = Omit<Product, "id">
 export type ProductUpdate = Partial<ProductCreate>
 
-export type User = {
-  id?: string ;
+export type BaseUser = {
   email: string;
   password: string;
   firstName: string;
@@ -28,10 +27,25 @@ export type User = {
   birthDate: string;
   avatar: string;
 }
+export interface User extends BaseUser {
+  id: string ;
+}
+export interface Admin extends BaseUser {
+  id: string;
+  role: "ADMIN";
+}
 
 export type Token = {
   sub: string;
   id: string;
   iat: number;
   exp: number;
+}
+
+
+export interface UserContextType {
+  user: User | string;
+  logout: () => void;
+  login: (token: string) => void;
+  update: (user: User) => void;
 }

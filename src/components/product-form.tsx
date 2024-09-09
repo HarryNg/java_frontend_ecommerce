@@ -80,7 +80,7 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
       color: data.color ?? "",
       rating: data.rating ?? 0,
       stock: data.stock ?? 0,
-      bestSeller: data.bestSeller ?? false,
+      isBestSeller: data.bestSeller ?? false,
       isDeleted: false,
       size: "S",
     });

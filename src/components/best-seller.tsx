@@ -11,7 +11,7 @@ const BestSeller = () => {
 
     useEffect(() => {
         if(products) {
-            const bestSellerProducts = products.filter(product => product.bestSeller);
+            const bestSellerProducts = products.filter(product => product.isBestSeller);
             if(products.length >= itemsLimit) {
             setBestSeller(bestSellerProducts.slice(0, itemsLimit));
             } else {
