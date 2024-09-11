@@ -1,17 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { userContext } from '@/provider/user-provider';
+import { FormData } from '@/types';
 
-type FormData = {
-  user_id: string;
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  address: string;
-  phoneNumber: string;
-  birthDate: string;
-  avatar: string;
-};
 
 export function useUserData() {
   const { user } = useContext(userContext) || {};

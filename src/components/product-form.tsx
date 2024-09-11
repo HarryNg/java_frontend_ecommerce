@@ -1,37 +1,12 @@
-import { ProductCreate } from "@/types";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { ChangeEvent, useContext } from "react";
+
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { z } from "zod";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent, useContext } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { ProductCreate,ProductFormProps, CheckboxProps,productSchema,ProductFormInputs } from "@/types";
 import { productProvider } from "@/provider/product-provider";
-
-interface ProductFormProps {
-  onAddProduct: (product: ProductCreate) => void;
-}
-
-const productSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  price: z.number().positive("Price must be positive"),
-  description: z.string().optional(),
-  category: z.string().optional(),
-  images: z.string().optional(), 
-  color: z.string().optional(),
-  rating: z.number().min(0).max(5).optional(),
-  stock: z.number().min(0).optional(),
-  bestSeller: z.boolean().optional(),
-  isDeleted: z.boolean().optional(),
-});
-
-type ProductFormInputs = z.infer<typeof productSchema>;
-
-interface CheckboxProps {
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  label: string;
-}
 
 const Checkbox = ({ checked, onChange, label }: CheckboxProps) => (
   <div className="flex items-center space-x-2">

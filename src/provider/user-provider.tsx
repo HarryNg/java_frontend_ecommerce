@@ -7,7 +7,10 @@ import { useUserDetails } from "@/features/use-user-details";
 export const userContext = createContext<UserContextType | null>(null);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
+    // Decode token to get user id 
+    // redirect to login if token is invalid
     const userId = useAuthenticate();
+
     const { data: userDetail } = useUserDetails(userId);
 
     const [user, setUser] = useState<User | string>("Guest");
